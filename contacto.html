@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto — Xmorada</title>
+<meta name="description" content="Contactá a Xmorada — Guillermo Figoli. Fotografía, video y diseño gráfico. San Juan (PR) / La Plata (AR).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="contacto">
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="wordmark" href="index.html"><b>X</b>morada</a>
+      <button class="nav-toggle" aria-label="Menú">&#9776;</button>
+      <nav class="nav">
+        <a href="index.html">Fotografía</a>
+        <a href="video-audio.html">Video / Audio</a>
+        <a href="diseno-grafico.html">Diseño Gráfico</a>
+        <a href="editorial.html">Editorial</a>
+        <a href="contacto.html" aria-current="page">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="hero__eyebrow">Contacto</p>
+    <h1>Escribinos</h1>
+    <p>Contame de tu proyecto y te respondo a la brevedad. Por el formulario, WhatsApp, Instagram o email.</p>
+  </section>
+
+  <div class="contact">
+    <div>
+      <form id="contactForm">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" name="telefono" type="tel">
+        </div>
+        <div class="field">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email">
+        </div>
+        <div class="field">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" required></textarea>
+        </div>
+        <button class="btn" type="submit">Enviar mensaje</button>
+      </form>
+    </div>
+
+    <aside>
+      <ul class="channels">
+        <li>
+          <p class="k">WhatsApp</p>
+          <a class="v" href="https://wa.link/mev33z" target="_blank" rel="noopener">+1 (787) 401-4421</a>
+        </li>
+        <li>
+          <p class="k">Email</p>
+          <a class="v" href="mailto:figoliar@gmail.com">figoliar@gmail.com</a>
+        </li>
+        <li>
+          <p class="k">Instagram</p>
+          <a class="v" href="https://www.instagram.com/guillermo_figoli" target="_blank" rel="noopener">@guillermo_figoli</a>
+        </li>
+        <li>
+          <p class="k">Estudio</p>
+          <p class="v" style="color:var(--ink-dim)">1220 Calle 12 NE, Puerto Nuevo,<br>San Juan, PR</p>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="foot">
+    <div class="foot__inner">
+      <span>&copy; <span id="yr"></span> Xmorada &middot; Guillermo Figoli</span>
+      <span><a href="https://wa.link/mev33z" target="_blank" rel="noopener">WhatsApp</a> &middot; <a href="https://www.instagram.com/guillermo_figoli" target="_blank" rel="noopener">Instagram</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/gallery.js"></script>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var n = document.getElementById('nombre').value.trim();
+      var t = document.getElementById('telefono').value.trim();
+      var c = document.getElementById('correo').value.trim();
+      var m = document.getElementById('mensaje').value.trim();
+      var subject = 'Consulta desde xmorada.com' + (n ? ' — ' + n : '');
+      var body = 'Nombre: ' + n + '\n' +
+                 'Teléfono: ' + t + '\n' +
+                 'Correo: ' + c + '\n\n' +
+                 m;
+      window.location.href = 'mailto:figoliar@gmail.com?subject=' +
+        encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    });
+  </script>
+</body>
+</html>
