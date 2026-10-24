@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contacto — Xmorada</title>
 <meta name="description" content="Contactá a Xmorada — Guillermo Figoli. Fotografía, video y diseño gráfico. San Juan (PR) / La Plata (AR).">
+<link rel="canonical" href="https://www.xmorada.com/contacto.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Xmorada">
+<meta property="og:title" content="Contacto — Xmorada">
+<meta property="og:description" content="Contactá a Xmorada — Guillermo Figoli. Fotografía, video y diseño gráfico. San Juan (PR) / La Plata (AR).">
+<meta property="og:url" content="https://www.xmorada.com/contacto.html">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -86,12 +94,39 @@
   <script src="assets/gallery.js"></script>
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
+    // Para envío directo (sin abrir el correo del visitante): pegar acá la URL de Formspree, ej. 'https://formspree.io/f/xxxxxxx'
+    var FORM_ENDPOINT = '';
+    var form = document.getElementById('contactForm');
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       var n = document.getElementById('nombre').value.trim();
       var t = document.getElementById('telefono').value.trim();
-      var c = document.getElementById('correo').value.trim();
+      var cEl = document.getElementById('correo');
+      var c = cEl.value.trim();
       var m = document.getElementById('mensaje').value.trim();
+      if (!t && !c) {
+        cEl.setCustomValidity('Dejanos un teléfono o un correo para poder responderte.');
+        cEl.reportValidity();
+        return;
+      }
+      cEl.setCustomValidity('');
+      if (FORM_ENDPOINT) {
+        var btn = form.querySelector('button');
+        btn.disabled = true;
+        fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre: n, telefono: t, correo: c, mensaje: m })
+        }).then(function (r) {
+          if (!r.ok) throw new Error('fail');
+          form.reset();
+          btn.textContent = 'Mensaje enviado';
+        }).catch(function () {
+          btn.disabled = false;
+          alert('No pudimos enviar el mensaje. Escribinos por WhatsApp o email.');
+        });
+        return;
+      }
       var subject = 'Consulta desde xmorada.com' + (n ? ' — ' + n : '');
       var body = 'Nombre: ' + n + '\n' +
                  'Teléfono: ' + t + '\n' +
@@ -100,6 +135,7 @@
       window.location.href = 'mailto:figoliar@gmail.com?subject=' +
         encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
+    document.getElementById('correo').addEventListener('input', function () { this.setCustomValidity(''); });
   </script>
 </body>
 </html>

@@ -108,7 +108,7 @@
         a.setAttribute("aria-label", im.alt || (im.video ? "Reproducir video" : "Ver imagen"));
         var img = document.createElement("img");
         img.loading = "lazy";
-        img.alt = im.alt || "";
+        img.alt = im.alt || ("Xmorada — " + sec.title);
         img.src = im.src;
         img.addEventListener("load", function () { img.classList.add("loaded"); });
         img.addEventListener("error", function () { a.style.display = "none"; });
