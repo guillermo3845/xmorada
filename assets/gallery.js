@@ -32,7 +32,7 @@
   };
 
   // Secciones que se muestran más chicas (formatos verticales / iconos)
-  var TIGHT = { "libros-imagen-texto": true };
+  var TIGHT = { "libros-imagen-texto": true }; var ORDER = {"editorial":["libros-imagen-texto","portadas-fotografia-diseno"]}; var AUDIOS = [{t:"Audioguía Introducción Sunlight on the Sea Floor",src:"assets/audio/sunlight-on-the-sea-floor.mp3",img:"assets/img/audio/sunlight-on-the-sea-floor.png"},{t:"Audioguía para CARIBE POR VENIR",src:"assets/audio/caribe-por-venir.mp3",img:"assets/img/audio/caribe-por-venir.png"}]; function buildAudio(mount){var s=document.createElement("section");s.className="section";s.id="audioguias";s.innerHTML='<div class="section__head"><h2 class="section__title">Audioguías</h2><span class="section__count">'+AUDIOS.length+'</span></div><p class="section__desc">Museo de Arte Contemporáneo de Puerto Rico.</p>';var g=document.createElement("div");g.className="grid";AUDIOS.forEach(function(a){var w=document.createElement("div");w.style.cssText="break-inside:avoid;margin-bottom:14px";var t=document.createElement("a");t.className="tile video";t.href=a.src;t.setAttribute("aria-label",a.t);var im=document.createElement("img");im.alt=a.t;im.src=a.img;im.addEventListener("load",function(){im.classList.add("loaded")});t.appendChild(im);var p=document.createElement("p");p.style.cssText="margin:8px 0 6px;font-size:14px;color:var(--ink-dim)";p.textContent=a.t;var au=document.createElement("audio");au.controls=true;au.preload="none";au.src=a.src;au.style.cssText="width:100%;display:none";t.addEventListener("click",function(e){e.preventDefault();au.style.display="block";if(au.paused){au.play()}else{au.pause()}});w.appendChild(t);w.appendChild(p);w.appendChild(au);g.appendChild(w)});s.appendChild(g);mount.appendChild(s)}
 
   function label(sec) {
     return DISPLAY[sec.slug] || titleCase(sec.title);
@@ -68,9 +68,9 @@
 
     var page = window.XM.pages.filter(function (p) { return p.id === pageId; })[0];
     if (!page) return;
-    var isVideo = pageId === "video";
+    var isVideo = pageId === "video"; if (isVideo) { setTimeout(function () { buildAudio(mount); }, 0); }
 
-    page.sections.forEach(function (sec) {
+    (ORDER[pageId] ? page.sections.slice().sort(function (a, b) { var o = ORDER[pageId]; function k(x) { var i = o.indexOf(x.slug); return i < 0 ? 99 : i; } return k(a) - k(b); }) : page.sections).forEach(function (sec) {
       if (!sec.images.length) return;
       var s = document.createElement("section");
       s.className = "section";
